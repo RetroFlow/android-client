@@ -19,6 +19,8 @@
         </activity>
 
         <activity android:name=".boards.addedit.BoardAddEditActivity" />
+
+        <activity android:name=".boards.view.BoardViewActivity" />
     </application>
 
 </manifest>

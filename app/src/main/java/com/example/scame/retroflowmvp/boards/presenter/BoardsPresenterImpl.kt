@@ -1,5 +1,6 @@
 package com.example.scame.retroflowmvp.boards.presenter
 
+import com.example.scame.retroflowmvp.boards.BoardRawModel
 import com.example.scame.retroflowmvp.boards.BoardsRepository
 import io.reactivex.disposables.CompositeDisposable
 
@@ -21,6 +22,10 @@ class BoardsPresenterImpl<T : BoardsPresenter.BoardsView>(
                                 { view?.onError(it) }
                         )
         )
+    }
+
+    override fun openBoard(board: BoardRawModel) {
+        view?.onOpenBoard(board)
     }
 
     override fun addBoardClick() {

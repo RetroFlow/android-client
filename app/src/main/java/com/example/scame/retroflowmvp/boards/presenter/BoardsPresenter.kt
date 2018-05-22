@@ -11,6 +11,8 @@ interface BoardsPresenter<T>: BasePresenter<T> {
 
         fun onBoards(boards: List<BoardRawModel>)
 
+        fun onOpenBoard(board: BoardRawModel)
+
         fun onAddBoard()
 
         fun onError(throwable: Throwable)
@@ -19,4 +21,6 @@ interface BoardsPresenter<T>: BasePresenter<T> {
     fun requestBoards()
 
     fun addBoardClick()
+
+    fun openBoard(board: BoardRawModel)
 }

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +13,18 @@ import android.widget.ProgressBar
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
+import com.example.scame.retroflowmvp.BoardClickEvent
 import com.example.scame.retroflowmvp.BottomNavigationActivity
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.addedit.BoardAddEditActivity
 import com.example.scame.retroflowmvp.boards.presenter.BoardsPresenter
+import com.example.scame.retroflowmvp.boards.view.BoardViewActivity
+import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
+import org.greenrobot.eventbus.ThreadMode
+import org.greenrobot.eventbus.Subscribe
+
+
 
 class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
 
@@ -71,11 +79,13 @@ class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
         super.onStart()
         presenter.subscribe(this)
         presenter.requestBoards()
+        EventBus.getDefault().register(this)
     }
 
     override fun onStop() {
         super.onStop()
         presenter.unsubscribe()
+        EventBus.getDefault().unregister(this)
     }
 
     @OnClick(R.id.board_add_btn)
@@ -97,5 +107,14 @@ class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
 
     override fun onError(throwable: Throwable) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    @Subscribe()
+    fun onMessageEvent(event: BoardClickEvent) {
+        presenter.openBoard(event.boardModel)
+    }
+
+    override fun onOpenBoard(board: BoardRawModel) {
+        startActivity(BoardViewActivity.getIntent(board.id, context!!))
     }
 }
