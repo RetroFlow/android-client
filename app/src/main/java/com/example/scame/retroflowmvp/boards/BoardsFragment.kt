@@ -2,6 +2,7 @@ package com.example.scame.retroflowmvp.boards
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -29,6 +30,9 @@ class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
     @BindView(R.id.boards_rv)
     lateinit var boardsRv: RecyclerView
 
+    @BindView(R.id.swipe_refresh_layout)
+    lateinit var swipeToRefresh: SwipeRefreshLayout
+
     @Inject
     lateinit var presenter: BoardsPresenter<BoardsPresenter.BoardsView>
 
@@ -41,7 +45,16 @@ class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
         setupInjection()
         setupBoardsRv()
 
+        setupSwipeToRefreshLayout()
+
         return view
+    }
+
+    private fun setupSwipeToRefreshLayout() {
+        swipeToRefresh.setOnRefreshListener {
+            presenter.requestBoards()
+            swipeToRefresh.isRefreshing = false
+        }
     }
 
     private fun setupBoardsRv() {

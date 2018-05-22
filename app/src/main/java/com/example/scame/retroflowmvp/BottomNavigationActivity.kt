@@ -33,6 +33,8 @@ class BottomNavigationActivity : AppCompatActivity() {
             }
             true
         }
+
+        bottomNavigation.selectedItemId = R.id.board_menu
     }
 
     private fun replaceFragment(fragment: Fragment, tag: String?, addToBackStack: Boolean = false) {
