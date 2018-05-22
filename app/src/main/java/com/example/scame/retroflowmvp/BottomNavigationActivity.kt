@@ -4,14 +4,21 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
+import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.boards.BoardsFragment
+import com.example.scame.retroflowmvp.boards.di.BoardsModule
 import com.example.scame.retroflowmvp.profile.ProfileFragment
 import com.example.scame.retroflowmvp.settings.SettingsFragment
 
 class BottomNavigationActivity : AppCompatActivity() {
 
+    @BindView(R.id.bottom_navigation)
     lateinit var bottomNavigation: BottomNavigationView
+
+    val boardsComponent by lazy {
+        RetroFlowApp.appComponent.provideBoardsComponent(BoardsModule())
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

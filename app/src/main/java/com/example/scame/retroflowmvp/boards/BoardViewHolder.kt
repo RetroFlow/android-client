@@ -8,8 +8,6 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.Broadcaster
 import com.example.scame.retroflowmvp.R
-import kotlinx.android.synthetic.main.board_item.view.*
-import org.greenrobot.eventbus.EventBus
 
 class BoardViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
@@ -24,7 +22,7 @@ class BoardViewHolder(view: View): RecyclerView.ViewHolder(view) {
         ButterKnife.bind(this, view)
     }
 
-    fun bind(board: BoardModel) {
+    fun bind(board: BoardRawModel) {
         boardName.text = board.name
         boardStage.text = board.stage
         boardCard.setOnClickListener { Broadcaster.post(board) }

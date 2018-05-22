@@ -1,5 +1,5 @@
 package com.example.scame.retroflowmvp
 
-import com.example.scame.retroflowmvp.boards.BoardModel
+import com.example.scame.retroflowmvp.boards.BoardCardModel
 
-data class BoardClickEvent(val boardModel: BoardModel)
+data class BoardClickEvent(val boardModel: BoardCardModel)
