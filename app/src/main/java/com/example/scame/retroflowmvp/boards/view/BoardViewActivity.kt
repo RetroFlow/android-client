@@ -4,13 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TabLayout
-import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.R
+import com.example.scame.retroflowmvp.boards.view.sprints.SprintsPagerAdapter
 
 class BoardViewActivity: AppCompatActivity() {
 
@@ -37,6 +37,10 @@ class BoardViewActivity: AppCompatActivity() {
 
     private lateinit var sprintsAdapter: SprintsPagerAdapter
 
+    private val boardId by lazy {
+        intent.getStringExtra(BOARD_ID_KEY)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_board_view)
@@ -52,7 +56,7 @@ class BoardViewActivity: AppCompatActivity() {
     }
 
     private fun setupTabs() {
-        sprintsAdapter = SprintsPagerAdapter(supportFragmentManager)
+        sprintsAdapter = SprintsPagerAdapter(supportFragmentManager, boardId)
         sprintsPager.adapter = sprintsAdapter
         tabLayout.setupWithViewPager(sprintsPager)
     }

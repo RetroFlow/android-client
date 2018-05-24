@@ -1,12 +1,13 @@
-package com.example.scame.retroflowmvp.boards.view
+package com.example.scame.retroflowmvp.boards.view.sprints
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.example.scame.retroflowmvp.boards.view.curr_sprint.CurrentSprintFragment
-import com.example.scame.retroflowmvp.boards.view.next_sprint.NextSprintFragment
+import com.example.scame.retroflowmvp.boards.view.sprints.curr_sprint.CurrentSprintFragment
+import com.example.scame.retroflowmvp.boards.view.sprints.next_sprint.NextSprintFragment
 
-class SprintsPagerAdapter(fragmentManager: FragmentManager): FragmentPagerAdapter(fragmentManager) {
+class SprintsPagerAdapter(fragmentManager: FragmentManager,
+                          private val boardId: String): FragmentPagerAdapter(fragmentManager) {
 
     companion object {
         private const val PAGES_COUNT = 2
@@ -17,8 +18,8 @@ class SprintsPagerAdapter(fragmentManager: FragmentManager): FragmentPagerAdapte
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            CURRENT_SPRINT_POS -> CurrentSprintFragment.newInstance()
-            NEXT_SPRINT_POS -> NextSprintFragment.newInstance()
+            CURRENT_SPRINT_POS -> CurrentSprintFragment.newInstance(boardId)
+            NEXT_SPRINT_POS -> NextSprintFragment.newInstance(boardId)
             else -> throw IllegalStateException("no such tab")
         }
     }
