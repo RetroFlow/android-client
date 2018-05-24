@@ -1,8 +1,16 @@
 package com.example.scame.retroflowmvp.boards.view.sprints
 
-data class RetroSection(val sectionId: String, val name: String, val issues: List<Issue>, val open: Boolean)
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
-data class Issue(val id: String, val title: String, val description: String,
-                 val comments: List<Comment>, val assignee: String?, val canEdit: Boolean)
+@Parcelize
+data class RetroSection(val sectionId: String, val name: String,
+                        val actionItems: List<ActionItem>, val open: Boolean): Parcelable
 
-data class Comment(val id: String, val author: String, val text: String)
+@Parcelize
+data class ActionItem(val id: String, val title: String,
+                      val description: String, val comments: List<Comment>,
+                      val assignee: String?, val canEdit: Boolean): Parcelable
+
+@Parcelize
+data class Comment(val id: String, val author: String, val text: String): Parcelable

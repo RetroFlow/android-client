@@ -1,0 +1,30 @@
+package com.example.scame.retroflowmvp.boards.view.sprints.section
+
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.TextView
+import butterknife.BindView
+import butterknife.ButterKnife
+import com.example.scame.retroflowmvp.ActionItemClickEvent
+import com.example.scame.retroflowmvp.Broadcaster
+import com.example.scame.retroflowmvp.R
+import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
+import kotlinx.android.synthetic.main.action_item_layout.view.*
+
+class ActionItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
+
+    @BindView(R.id.action_item_root)
+    lateinit var actionItemRoot: View
+
+    @BindView(R.id.action_item_title)
+    lateinit var actionItemTitle: TextView
+
+    init {
+        ButterKnife.bind(this, view)
+    }
+
+    fun bind(actionItem: ActionItem) {
+        actionItemTitle.text = actionItem.title
+        actionItemRoot.setOnClickListener { Broadcaster.post(ActionItemClickEvent(actionItem)) }
+    }
+}
