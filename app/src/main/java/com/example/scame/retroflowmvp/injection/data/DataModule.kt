@@ -4,6 +4,8 @@ import com.example.scame.retroflowmvp.boards.BoardsRepository
 import com.example.scame.retroflowmvp.boards.BoardsRepositoryImpl
 import com.example.scame.retroflowmvp.boards.view.sprints.repository.RetroItemsRepository
 import com.example.scame.retroflowmvp.boards.view.sprints.repository.RetroItemsRepositoryImpl
+import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.repository.ActionItemRepository
+import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.repository.ActionItemRepositoryImpl
 import dagger.Module
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Provides
@@ -39,4 +41,8 @@ class DataModule {
     @Provides
     @Singleton
     fun provideRetroItemsRepository(): RetroItemsRepository = RetroItemsRepositoryImpl()
+
+    @Provides
+    @Singleton
+    fun provideActionItemRepository(): ActionItemRepository = ActionItemRepositoryImpl()
 }

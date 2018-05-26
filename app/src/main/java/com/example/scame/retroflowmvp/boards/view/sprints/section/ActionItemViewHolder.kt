@@ -9,7 +9,6 @@ import com.example.scame.retroflowmvp.ActionItemClickEvent
 import com.example.scame.retroflowmvp.Broadcaster
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
-import kotlinx.android.synthetic.main.action_item_layout.view.*
 
 class ActionItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
 

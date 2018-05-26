@@ -39,7 +39,7 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
     private lateinit var sectionsAdapter: RetroSectionsAdapter
 
     private val sectionsComponent by lazy {
-        RetroFlowApp.appComponent.provideRetroSectionsCompoment(SectionsModule())
+        RetroFlowApp.appComponent.provideRetroSectionsComponents(SectionsModule())
     }
 
     private val boardId by lazy {

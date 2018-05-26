@@ -10,7 +10,8 @@ data class RetroSection(val sectionId: String, val name: String,
 @Parcelize
 data class ActionItem(val id: String, val title: String,
                       val description: String, val comments: List<Comment>,
-                      val assignee: String?, val canEdit: Boolean): Parcelable
+                      val assignee: String?, val canEdit: Boolean, val votes: Int,
+                      val canVote: Boolean): Parcelable
 
 @Parcelize
 data class Comment(val id: String, val author: String, val text: String): Parcelable
