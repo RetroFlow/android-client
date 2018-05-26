@@ -12,6 +12,7 @@ import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.ActionItemClickEvent
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.RetroSection
+import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.ActionItemActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 
@@ -62,6 +63,6 @@ class ActionItemsActivity: AppCompatActivity() {
 
     @Subscribe
     fun onActionItemClick(actionItemClickEvent: ActionItemClickEvent) {
-
+        startActivity(ActionItemActivity.getIntent(this, actionItemClickEvent.actionItem))
     }
 }
