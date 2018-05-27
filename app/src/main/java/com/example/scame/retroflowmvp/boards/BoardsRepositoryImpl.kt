@@ -22,7 +22,7 @@ class BoardsRepositoryImpl: BoardsRepository {
         val board4 = BoardRawModel("4", "Board 4", "Open", false)
 
         return Single
-                .timer(3, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
+                .timer(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
                 .map { listOf(board1, board2, board3, board4) }
     }
 
