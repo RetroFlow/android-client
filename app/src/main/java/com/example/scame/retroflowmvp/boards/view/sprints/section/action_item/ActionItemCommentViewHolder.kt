@@ -20,7 +20,7 @@ class ActionItemCommentViewHolder(view: View): RecyclerView.ViewHolder(view) {
     lateinit var commentTV: TextView
 
     fun bind(comment: Comment) {
-        authorTv.text = comment.text
+        authorTv.text = comment.author
         commentTV.text = comment.text
     }
 }

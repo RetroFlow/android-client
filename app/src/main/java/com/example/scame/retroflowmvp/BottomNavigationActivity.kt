@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
+import android.util.Log
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.boards.BoardsFragment
@@ -25,6 +26,10 @@ class BottomNavigationActivity : AppCompatActivity() {
         setContentView(R.layout.activity_bottom_navigation)
         ButterKnife.bind(this)
 
+        setupBottomNavigation()
+    }
+
+    private fun setupBottomNavigation() {
         bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.board_menu -> { replaceFragment(BoardsFragment.newInstance(), BoardsFragment.javaClass.canonicalName) }
@@ -38,9 +43,6 @@ class BottomNavigationActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment, tag: String?, addToBackStack: Boolean = false) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container_fl, fragment, tag)
-        if (addToBackStack) transaction.addToBackStack(null)
-        transaction.commit()
+        supportFragmentManager.replaceFragment(R.id.container_fl, fragment, tag, addToBackStack)
     }
 }

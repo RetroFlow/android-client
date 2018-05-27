@@ -22,7 +22,7 @@
 
         <activity android:name=".boards.view.BoardViewActivity" />
 
-        <activity android:name=".boards.view.sprints.section.ActionItemsActivity" />
+        <activity android:name=".boards.view.sprints.section.ActionItemsListActivity" />
 
         <activity android:name=".boards.view.sprints.section.action_item.ActionItemActivity" />
     </application>

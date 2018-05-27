@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -20,6 +22,8 @@ import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
 import com.example.scame.retroflowmvp.boards.view.sprints.Comment
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.di.ActionItemModule
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.presenter.ActionItemPresenter
+import com.example.scame.retroflowmvp.hideKeyboard
+import com.example.scame.retroflowmvp.setToolbarBackButton
 import javax.inject.Inject
 
 class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemView {
@@ -35,6 +39,9 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
             return intent
         }
     }
+
+    @BindView(R.id.toolbar)
+    lateinit var toolbar: Toolbar
 
     @BindView(R.id.action_item_title)
     lateinit var actionItemTitle: TextView
@@ -60,7 +67,7 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
     @Inject
     lateinit var actionItemPresenter: ActionItemPresenter<ActionItemPresenter.ActionItemView>
 
-    private lateinit var commentsAdapter: ActionItemCommensAdapter
+    private lateinit var commentsAdapter: ActionItemCommentsAdapter
 
     private val actionItemComponent by lazy {
         RetroFlowApp.appComponent.provideActionItemComponent(ActionItemModule())
@@ -72,6 +79,8 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
         super.onCreate(savedInstanceState)
         setContentView(R.layout.action_item_activity_layout)
         ButterKnife.bind(this)
+
+        setupToolbar()
 
         setScreenModel(savedInstanceState)
 
@@ -109,6 +118,14 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
         actionItemPresenter.unsubscribe()
     }
 
+    private fun setupToolbar() {
+        toolbar.setToolbarBackButton(this)
+    }
+
+    override fun clearCommentInput() {
+        commentInput.text.clear()
+    }
+
     override fun onRenderActionItem(actionItem: ActionItem) {
         actionItemTitle.text = actionItem.title
         actionItemDescription.text = actionItem.description
@@ -116,9 +133,11 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
     }
 
     private fun setupCommentsAdapter() {
-        this.commentsAdapter = ActionItemCommensAdapter(screenModel.comments.toMutableList(), this)
+        this.commentsAdapter = ActionItemCommentsAdapter(screenModel.comments.toMutableList(), this)
         commentsRv.adapter = commentsAdapter
-        commentsRv.layoutManager = LinearLayoutManager(this)
+        val llm = LinearLayoutManager(this)
+        llm.stackFromEnd = true
+        commentsRv.layoutManager = llm
     }
 
     @OnClick(R.id.comment_send_btn)
@@ -128,7 +147,7 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
     }
 
     override fun onCommentValidationFailed() {
-        Toast.makeText(this, "Cannot send empty message", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Cannot send an empty message", Toast.LENGTH_SHORT).show()
     }
 
     override fun onActionItemEdit(edited: ActionItem) {
@@ -136,7 +155,9 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
     }
 
     override fun onActionItemComments(comments: List<Comment>) {
+        hideKeyboard()
         commentsAdapter.rebind(comments)
+        commentsRv.smoothScrollToPosition(commentsAdapter.itemCount - 1)
     }
 
     override fun onError(throwable: Throwable) {

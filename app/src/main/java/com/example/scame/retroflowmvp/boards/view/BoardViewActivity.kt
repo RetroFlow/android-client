@@ -11,6 +11,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.SprintsPagerAdapter
+import com.example.scame.retroflowmvp.setToolbarBackButton
 
 class BoardViewActivity: AppCompatActivity() {
 
@@ -51,8 +52,7 @@ class BoardViewActivity: AppCompatActivity() {
     }
 
     private fun setupToolbar() {
-        toolbar.setNavigationIcon(R.drawable.abc_ic_ab_back_material)
-        toolbar.setNavigationOnClickListener { finish() }
+        toolbar.setToolbarBackButton(this)
     }
 
     private fun setupTabs() {

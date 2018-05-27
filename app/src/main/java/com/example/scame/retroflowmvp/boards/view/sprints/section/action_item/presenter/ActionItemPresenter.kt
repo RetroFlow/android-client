@@ -16,6 +16,8 @@ interface ActionItemPresenter<T>: BasePresenter<T> {
 
         fun onActionItemComments(comments: List<Comment>)
 
+        fun clearCommentInput()
+
         fun onError(throwable: Throwable)
 
         fun onActionItemProgressChanged(show: Boolean)

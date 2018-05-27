@@ -16,7 +16,7 @@ import com.example.scame.retroflowmvp.SectionClickEvent
 import com.example.scame.retroflowmvp.boards.view.sprints.adapter.RetroSectionsAdapter
 import com.example.scame.retroflowmvp.boards.view.sprints.di.SectionsModule
 import com.example.scame.retroflowmvp.boards.view.sprints.presenter.RetroSectionsPresenter
-import com.example.scame.retroflowmvp.boards.view.sprints.section.ActionItemsActivity
+import com.example.scame.retroflowmvp.boards.view.sprints.section.ActionItemsListActivity
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
@@ -95,6 +95,6 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
 
     @Subscribe
     fun onRetroSectionClick(sectionClickEvent: SectionClickEvent) {
-        startActivity(ActionItemsActivity.getIntent(context!!, sectionClickEvent.section))
+        startActivity(ActionItemsListActivity.getIntent(context!!, sectionClickEvent.section))
     }
 }

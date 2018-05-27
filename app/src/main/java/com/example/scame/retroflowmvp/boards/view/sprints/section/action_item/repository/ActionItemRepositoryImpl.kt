@@ -20,9 +20,12 @@ class ActionItemRepositoryImpl: ActionItemRepository {
     private fun getCommentsSingleList() = Single
             .timer(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
             .map { listOf(
-                    Comment("1", "Slava", "Comment 1"),
-                    Comment("2", "Masha", "Comment 2"),
-                    Comment("3", "Nastya", "Comment 3")
+                    Comment("1", "Slava", "Comment 1, from Slava"),
+                    Comment("2", "Masha", "Comment 2, from Masha"),
+                    Comment("3", "Nastya", "Comment 3, from Nastya"),
+                    Comment("4", "Anonym", "Comment 4, from Anonym"),
+                    Comment("5", "SF", "Comment 5, from SF"),
+                    Comment("6", "JS", "Comment 6, from JS")
             )}
 
     override fun editActionItem(actionItem: ActionItem): Single<ActionItem> {
