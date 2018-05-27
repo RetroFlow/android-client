@@ -1,4 +1,4 @@
-package com.example.scame.retroflowmvp
+package com.example.scame.retroflowmvp.utils
 
 import org.greenrobot.eventbus.EventBus
 

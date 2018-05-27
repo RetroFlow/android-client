@@ -2,14 +2,13 @@ package com.example.scame.retroflowmvp.boards
 
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.BoardClickEvent
-import com.example.scame.retroflowmvp.Broadcaster
+import com.example.scame.retroflowmvp.utils.Broadcaster
 import com.example.scame.retroflowmvp.R
 
 class BoardViewHolder(view: View): RecyclerView.ViewHolder(view) {

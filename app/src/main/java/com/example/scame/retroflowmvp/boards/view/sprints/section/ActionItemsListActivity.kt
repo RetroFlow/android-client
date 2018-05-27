@@ -14,7 +14,7 @@ import com.example.scame.retroflowmvp.ActionItemClickEvent
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.RetroSection
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.ActionItemActivity
-import com.example.scame.retroflowmvp.setToolbarBackButton
+import com.example.scame.retroflowmvp.utils.setToolbarBackButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 

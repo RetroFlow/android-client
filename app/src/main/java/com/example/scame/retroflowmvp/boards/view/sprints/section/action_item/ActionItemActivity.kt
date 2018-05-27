@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ProgressBar
@@ -22,8 +21,8 @@ import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
 import com.example.scame.retroflowmvp.boards.view.sprints.Comment
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.di.ActionItemModule
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.presenter.ActionItemPresenter
-import com.example.scame.retroflowmvp.hideKeyboard
-import com.example.scame.retroflowmvp.setToolbarBackButton
+import com.example.scame.retroflowmvp.utils.hideKeyboard
+import com.example.scame.retroflowmvp.utils.setToolbarBackButton
 import javax.inject.Inject
 
 class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemView {

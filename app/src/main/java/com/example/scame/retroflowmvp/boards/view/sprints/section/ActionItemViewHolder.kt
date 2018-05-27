@@ -6,7 +6,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.ActionItemClickEvent
-import com.example.scame.retroflowmvp.Broadcaster
+import com.example.scame.retroflowmvp.utils.Broadcaster
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
 

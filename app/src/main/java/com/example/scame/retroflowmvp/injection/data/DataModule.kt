@@ -1,5 +1,8 @@
 package com.example.scame.retroflowmvp.injection.data
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import com.example.scame.retroflowmvp.boards.BoardsRepository
 import com.example.scame.retroflowmvp.boards.BoardsRepositoryImpl
 import com.example.scame.retroflowmvp.boards.view.sprints.repository.RetroItemsRepository
@@ -38,6 +41,10 @@ class DataModule {
 
     @Provides
     @Singleton
+    fun provideSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)
+
+    @Provides
+    @Singleton
     fun provideBoardsRepository(): BoardsRepository = BoardsRepositoryImpl()
 
     @Provides
@@ -50,5 +57,5 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideEntryRepository(): EntryRepository = EntryRepositoryImpl()
+    fun provideEntryRepository(sp: SharedPreferences): EntryRepository = EntryRepositoryImpl(sp)
 }

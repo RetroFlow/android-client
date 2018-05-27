@@ -6,13 +6,13 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
-import android.util.Log
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.boards.BoardsFragment
 import com.example.scame.retroflowmvp.boards.di.BoardsModule
 import com.example.scame.retroflowmvp.profile.ProfileFragment
 import com.example.scame.retroflowmvp.settings.SettingsFragment
+import com.example.scame.retroflowmvp.utils.replaceFragment
 
 class BottomNavigationActivity : AppCompatActivity() {
 
