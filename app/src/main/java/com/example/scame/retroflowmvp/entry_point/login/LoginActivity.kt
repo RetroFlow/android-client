@@ -1,4 +1,4 @@
-package com.example.scame.retroflowmvp.entry_point
+package com.example.scame.retroflowmvp.entry_point.login
 
 import android.app.Activity
 import android.content.Intent
@@ -14,6 +14,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import butterknife.BindView
 import com.example.scame.retroflowmvp.BottomNavigationActivity
+import com.example.scame.retroflowmvp.entry_point.registration.RegistrationActivity
 
 
 class LoginActivity : AppCompatActivity() {

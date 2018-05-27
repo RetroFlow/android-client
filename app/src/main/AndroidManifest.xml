@@ -32,9 +32,9 @@
 
         </activity>
 
-        <activity android:name=".entry_point.LoginActivity" />
+        <activity android:name=".entry_point.login.LoginActivity" />
 
-        <activity android:name=".entry_point.RegistrationActivity" />
+        <activity android:name=".entry_point.registration.RegistrationActivity" />
 
     </application>
 
