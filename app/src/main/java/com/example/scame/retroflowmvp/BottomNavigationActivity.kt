@@ -1,5 +1,7 @@
 package com.example.scame.retroflowmvp
 
+import android.content.Context
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -13,6 +15,10 @@ import com.example.scame.retroflowmvp.profile.ProfileFragment
 import com.example.scame.retroflowmvp.settings.SettingsFragment
 
 class BottomNavigationActivity : AppCompatActivity() {
+
+    companion object {
+        fun getIntent(context: Context) = Intent(context, BottomNavigationActivity::class.java)
+    }
 
     @BindView(R.id.bottom_navigation)
     lateinit var bottomNavigation: BottomNavigationView
