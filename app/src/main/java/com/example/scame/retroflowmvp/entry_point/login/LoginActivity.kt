@@ -13,14 +13,19 @@ import com.example.scame.retroflowmvp.R
 import android.app.ProgressDialog
 import android.content.Context
 import butterknife.BindView
+import butterknife.OnClick
 import com.example.scame.retroflowmvp.BottomNavigationActivity
+import com.example.scame.retroflowmvp.RetroFlowApp
+import com.example.scame.retroflowmvp.entry_point.login.di.LoginModule
+import com.example.scame.retroflowmvp.entry_point.login.presenter.LoginPresenter
 import com.example.scame.retroflowmvp.entry_point.registration.RegistrationActivity
+import javax.inject.Inject
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity(), LoginPresenter.LoginView {
 
     companion object {
-        private val REQUEST_SIGNUP = 0
+        private const val REQUEST_SIGNUP = 0
 
         fun getIntent(context: Context) = Intent(context, LoginActivity::class.java)
     }
@@ -29,49 +34,71 @@ class LoginActivity : AppCompatActivity() {
     lateinit var emailText: EditText
     @BindView(R.id.input_password)
     lateinit var passwordText: EditText
-    @BindView(R.id.btn_login)
-    lateinit var loginButton: Button
-    @BindView(R.id.link_signup)
-    lateinit var signupLink: TextView
+
+    @Inject
+    lateinit var presenter: LoginPresenter<LoginPresenter.LoginView>
+
+    private val loginComponent by lazy {
+        RetroFlowApp.appComponent.provideLoginComponent(LoginModule())
+    }
+
+    private var progressDialog: ProgressDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
         ButterKnife.bind(this)
 
-        loginButton.setOnClickListener { login() }
+        setupInjection()
+    }
 
-        signupLink.setOnClickListener {
-            startActivityForResult(RegistrationActivity.getInstance(this), REQUEST_SIGNUP)
+    override fun onStart() {
+        super.onStart()
+        presenter.subscribe(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        presenter.unsubscribe()
+    }
+
+    override fun onRegistrationRedirect() {
+        startActivityForResult(RegistrationActivity.getInstance(this), REQUEST_SIGNUP)
+    }
+
+    override fun onProgressChanged(show: Boolean, msg: String) {
+        if (show) {
+            if (progressDialog == null) {
+                progressDialog = ProgressDialog(this, R.style.Theme_AppCompat_DayNight_Dialog)
+            }
+            progressDialog?.isIndeterminate = true
+            progressDialog?.setMessage(msg)
+            progressDialog?.show()
+        } else {
+            progressDialog?.dismiss()
         }
     }
 
-    private fun login() {
-        if (!validate()) {
-            onLoginFailed()
-            return
-        }
-
-        loginButton.isEnabled = false
-
-        val progressDialog = ProgressDialog(this, R.style.Base_Theme_AppCompat_Dialog)
-        progressDialog.isIndeterminate = true
-        progressDialog.setMessage("Authenticating...")
-        progressDialog.show()
-
-        val email = emailText.text.toString()
-        val password = passwordText.text.toString()
-
-
-        android.os.Handler().postDelayed(
-                {
-                    // On complete call either onLoginSuccess or onLoginFailed
-                    onLoginSuccess()
-                    // onLoginFailed();
-                    progressDialog.dismiss()
-                }, 3000)
+    override fun onSuccess() {
+        startActivity(BottomNavigationActivity.getIntent(this))
+        finish()
     }
 
+    override fun onError(throwable: Throwable) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onEmailValidationError(msg: String) {
+        emailText.error = msg
+    }
+
+    override fun onPasswordValidationError(msg: String) {
+        passwordText.error = msg
+    }
+
+    private fun setupInjection() {
+        loginComponent.inject(this)
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_SIGNUP) {
@@ -86,37 +113,13 @@ class LoginActivity : AppCompatActivity() {
         moveTaskToBack(true)
     }
 
-    private fun onLoginSuccess() {
-        loginButton.isEnabled = true
-        startActivity(BottomNavigationActivity.getIntent(this))
-        finish()
+    @OnClick(R.id.link_signup)
+    fun onSignUpLinkClick() {
+        presenter.openRegistration()
     }
 
-    private fun onLoginFailed() {
-        Toast.makeText(baseContext, "Login failed", Toast.LENGTH_LONG).show()
-        loginButton.isEnabled = true
-    }
-
-    private fun validate(): Boolean {
-        var valid = true
-
-        val email = emailText.text.toString()
-        val password = passwordText.text.toString()
-
-        if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailText.error = "enter a valid email address"
-            valid = false
-        } else {
-            emailText.error = null
-        }
-
-        if (password.isEmpty() || password.length < 4 || password.length > 10) {
-            passwordText.error = "between 4 and 10 alphanumeric characters"
-            valid = false
-        } else {
-            passwordText.error = null
-        }
-
-        return valid
+    @OnClick(R.id.btn_login)
+    fun onLoginClick() {
+        presenter.login(emailText.text.toString(), passwordText.text.toString())
     }
 }

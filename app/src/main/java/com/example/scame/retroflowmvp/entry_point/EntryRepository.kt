@@ -4,7 +4,7 @@ import io.reactivex.Single
 
 interface EntryRepository {
 
-    fun login(): Single<Boolean>
+    fun login(email: String, password: String): Single<Boolean>
 
     fun register(): Single<Boolean>
 

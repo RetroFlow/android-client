@@ -6,6 +6,8 @@ import com.example.scame.retroflowmvp.boards.view.sprints.di.SectionsComponent
 import com.example.scame.retroflowmvp.boards.view.sprints.di.SectionsModule
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.di.ActionItemComponent
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.di.ActionItemModule
+import com.example.scame.retroflowmvp.entry_point.login.di.LoginComponent
+import com.example.scame.retroflowmvp.entry_point.login.di.LoginModule
 import com.example.scame.retroflowmvp.entry_point.registration.di.RegistrationComponent
 import com.example.scame.retroflowmvp.entry_point.registration.di.RegistrationModule
 import dagger.Component
@@ -14,6 +16,8 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = [AppModule::class])
 interface AppComponent {
+
+    fun provideLoginComponent(loginModule: LoginModule): LoginComponent
 
     fun provideRegistrationComponent(registrationModule: RegistrationModule): RegistrationComponent
 

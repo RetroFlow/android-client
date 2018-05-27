@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit
 
 class EntryRepositoryImpl: EntryRepository {
 
-    override fun login(): Single<Boolean> {
+    override fun login(email: String, password: String): Single<Boolean> {
         return Single.timer(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread()).map { true }
     }
 
