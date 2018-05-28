@@ -19,10 +19,7 @@ import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.addedit.BoardAddEditActivity
 import com.example.scame.retroflowmvp.boards.presenter.BoardsPresenter
 import com.example.scame.retroflowmvp.boards.view.BoardViewActivity
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
-import org.greenrobot.eventbus.ThreadMode
-import org.greenrobot.eventbus.Subscribe
 
 
 
@@ -66,7 +63,9 @@ class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
     }
 
     private fun setupBoardsRv() {
-        boardsAdapter = BoardsRvAdapter(mutableListOf(), context!!)
+        boardsAdapter = BoardsRvAdapter(mutableListOf(), context!!) {
+            presenter.openBoard(it)
+        }
         boardsRv.adapter = boardsAdapter
         boardsRv.layoutManager = LinearLayoutManager(context)
     }
@@ -79,13 +78,11 @@ class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
         super.onStart()
         presenter.subscribe(this)
         presenter.requestBoards()
-        EventBus.getDefault().register(this)
     }
 
     override fun onStop() {
         super.onStop()
         presenter.unsubscribe()
-        EventBus.getDefault().unregister(this)
     }
 
     @OnClick(R.id.board_add_btn)
@@ -107,11 +104,6 @@ class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
 
     override fun onError(throwable: Throwable) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    @Subscribe()
-    fun onMessageEvent(event: BoardClickEvent) {
-        presenter.openBoard(event.boardModel)
     }
 
     override fun onOpenBoard(board: BoardRawModel) {

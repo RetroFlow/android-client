@@ -8,11 +8,12 @@ import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
 
 class ActionItemsAdapter(private val actionItems: MutableList<ActionItem>,
-                         private val context: Context): RecyclerView.Adapter<ActionItemViewHolder>() {
+                         private val context: Context,
+                         private val onClick: (ActionItem) -> Unit): RecyclerView.Adapter<ActionItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionItemViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.action_item_layout, parent, false)
-        return ActionItemViewHolder(view)
+        return ActionItemViewHolder(view, onClick)
     }
 
     override fun getItemCount(): Int = actionItems.size

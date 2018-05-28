@@ -15,8 +15,6 @@ import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.RetroSection
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.ActionItemActivity
 import com.example.scame.retroflowmvp.utils.setToolbarBackButton
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 
 class ActionItemsListActivity: AppCompatActivity() {
 
@@ -49,25 +47,12 @@ class ActionItemsListActivity: AppCompatActivity() {
         setupActionItemsList()
     }
 
-    override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        EventBus.getDefault().unregister(this)
-    }
-
     private fun setupActionItemsList() {
-        actionsItemsRv.adapter = ActionItemsAdapter(retroSection.actionItems.toMutableList(), this)
+        actionsItemsRv.adapter = ActionItemsAdapter(retroSection.actionItems.toMutableList(), this) {
+            startActivity(ActionItemActivity.getIntent(this, it))
+        }
         actionsItemsRv.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         actionsItemsRv.layoutManager = LinearLayoutManager(this)
-    }
-
-    @Subscribe
-    fun onActionItemClick(actionItemClickEvent: ActionItemClickEvent) {
-        startActivity(ActionItemActivity.getIntent(this, actionItemClickEvent.actionItem))
     }
 
     private fun setupToolbar() {

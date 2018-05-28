@@ -6,13 +6,13 @@ import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.example.scame.retroflowmvp.utils.Broadcaster
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.SectionClickEvent
 import com.example.scame.retroflowmvp.boards.view.sprints.RetroSection
 
 class RetroSectionsViewHolder(view: View,
-                              private val context: Context): RecyclerView.ViewHolder(view) {
+                              private val context: Context,
+                              private val onClick: (RetroSection) -> Unit): RecyclerView.ViewHolder(view) {
 
     @BindView(R.id.section_id_tv)
     lateinit var sectionId: TextView
@@ -34,6 +34,6 @@ class RetroSectionsViewHolder(view: View,
             context.resources.getColor(R.color.dark_blue)
         })
 
-        sectionRoot.setOnClickListener { Broadcaster.post(SectionClickEvent(retroSection)) }
+        sectionRoot.setOnClickListener { onClick(retroSection) }
     }
 }

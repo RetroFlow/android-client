@@ -8,11 +8,12 @@ import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.RetroSection
 
 class RetroSectionsAdapter(private val retroSections: MutableList<RetroSection>,
-                           private val context: Context): RecyclerView.Adapter<RetroSectionsViewHolder>() {
+                           private val context: Context,
+                           private val onClick: (RetroSection) -> Unit): RecyclerView.Adapter<RetroSectionsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RetroSectionsViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.retro_section_item, parent, false)
-        return RetroSectionsViewHolder(view, context)
+        return RetroSectionsViewHolder(view, context, onClick)
     }
 
     override fun getItemCount(): Int = retroSections.size

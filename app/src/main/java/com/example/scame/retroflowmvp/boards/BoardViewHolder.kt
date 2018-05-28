@@ -7,11 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.example.scame.retroflowmvp.BoardClickEvent
-import com.example.scame.retroflowmvp.utils.Broadcaster
 import com.example.scame.retroflowmvp.R
 
-class BoardViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class BoardViewHolder(view: View, private val onClick: (BoardRawModel) -> Unit): RecyclerView.ViewHolder(view) {
 
     @BindView(R.id.board_card)
     lateinit var boardCard: CardView
@@ -29,7 +27,7 @@ class BoardViewHolder(view: View): RecyclerView.ViewHolder(view) {
     fun bind(board: BoardRawModel) {
         boardName.text = board.name
         boardStage.text = board.stage
-        boardCard.setOnClickListener { Broadcaster.post(BoardClickEvent(board)) }
+        boardCard.setOnClickListener { onClick(board) }
 
         adminLogo.visibility = if (board.canEdit) View.VISIBLE else View.GONE
     }

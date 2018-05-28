@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import com.example.scame.retroflowmvp.R
 
 class BoardsRvAdapter(private val boards: MutableList<BoardRawModel>,
-                      private val context: Context) : RecyclerView.Adapter<BoardViewHolder>() {
+                      private val context: Context,
+                      private val onClick: (BoardRawModel) -> Unit) : RecyclerView.Adapter<BoardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder =
             BoardViewHolder(
-                    LayoutInflater.from(context).inflate(R.layout.board_item, parent, false)
+                    LayoutInflater.from(context).inflate(R.layout.board_item, parent, false),
+                    onClick
             )
 
     override fun getItemCount(): Int = boards.size

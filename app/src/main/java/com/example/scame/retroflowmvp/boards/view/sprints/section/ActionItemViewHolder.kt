@@ -5,12 +5,10 @@ import android.view.View
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
-import com.example.scame.retroflowmvp.ActionItemClickEvent
-import com.example.scame.retroflowmvp.utils.Broadcaster
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
 
-class ActionItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class ActionItemViewHolder(view: View, private val onClick: (ActionItem) -> Unit): RecyclerView.ViewHolder(view) {
 
     @BindView(R.id.action_item_root)
     lateinit var actionItemRoot: View
@@ -24,6 +22,6 @@ class ActionItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
     fun bind(actionItem: ActionItem) {
         actionItemTitle.text = actionItem.title
-        actionItemRoot.setOnClickListener { Broadcaster.post(ActionItemClickEvent(actionItem)) }
+        actionItemRoot.setOnClickListener { onClick(actionItem) }
     }
 }

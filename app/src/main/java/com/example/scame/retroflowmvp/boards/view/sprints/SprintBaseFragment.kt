@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,8 +18,6 @@ import com.example.scame.retroflowmvp.boards.view.sprints.adapter.RetroSectionsA
 import com.example.scame.retroflowmvp.boards.view.sprints.di.SectionsModule
 import com.example.scame.retroflowmvp.boards.view.sprints.presenter.RetroSectionsPresenter
 import com.example.scame.retroflowmvp.boards.view.sprints.section.ActionItemsListActivity
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSectionsView {
@@ -66,17 +65,17 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
         super.onStart()
         presenter.subscribe(this)
         presenter.requestRetroSections(boardId)
-        EventBus.getDefault().register(this)
     }
 
     override fun onStop() {
         super.onStop()
         presenter.unsubscribe()
-        EventBus.getDefault().unregister(this)
     }
 
     private fun setupSectionsAdapter() {
-        sectionsAdapter = RetroSectionsAdapter(mutableListOf(), context!!)
+        sectionsAdapter = RetroSectionsAdapter(mutableListOf(), context!!) {
+            startActivity(ActionItemsListActivity.getIntent(context!!, it))
+        }
         retroSectionsRv.adapter = sectionsAdapter
         retroSectionsRv.layoutManager = LinearLayoutManager(context)
     }
@@ -91,10 +90,5 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
 
     override fun onError(throwable: Throwable) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    @Subscribe
-    fun onRetroSectionClick(sectionClickEvent: SectionClickEvent) {
-        startActivity(ActionItemsListActivity.getIntent(context!!, sectionClickEvent.section))
     }
 }
