@@ -11,6 +11,7 @@ import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.boards.BoardsFragment
 import com.example.scame.retroflowmvp.boards.di.BoardsModule
 import com.example.scame.retroflowmvp.profile.ProfileFragment
+import com.example.scame.retroflowmvp.profile.di.ProfileModule
 import com.example.scame.retroflowmvp.settings.SettingsFragment
 import com.example.scame.retroflowmvp.utils.replaceFragment
 
@@ -25,6 +26,10 @@ class BottomNavigationActivity : AppCompatActivity() {
 
     val boardsComponent by lazy {
         RetroFlowApp.appComponent.provideBoardsComponent(BoardsModule())
+    }
+
+    val profileComponent by lazy {
+        RetroFlowApp.appComponent.provideProfileComponent(ProfileModule())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

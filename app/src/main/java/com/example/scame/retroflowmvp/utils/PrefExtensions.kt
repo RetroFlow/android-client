@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 
 private const val OAUTH_TOKEN_KEY = "oauth_token_key"
 
-fun SharedPreferences.saveToken(token: String) = set(OAUTH_TOKEN_KEY, token)
+fun SharedPreferences.setToken(token: String) = set(OAUTH_TOKEN_KEY, token)
 
 fun SharedPreferences.getToken(): String? = getString(OAUTH_TOKEN_KEY, null)
 

@@ -11,6 +11,8 @@ import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.re
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.repository.ActionItemRepositoryImpl
 import com.example.scame.retroflowmvp.entry_point.EntryRepository
 import com.example.scame.retroflowmvp.entry_point.EntryRepositoryImpl
+import com.example.scame.retroflowmvp.profile.profile.ProfileRepository
+import com.example.scame.retroflowmvp.profile.profile.ProfileRepositoryImpl
 import dagger.Module
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Provides
@@ -58,4 +60,8 @@ class DataModule {
     @Provides
     @Singleton
     fun provideEntryRepository(sp: SharedPreferences): EntryRepository = EntryRepositoryImpl(sp)
+
+    @Provides
+    @Singleton
+    fun provideProfileRepository(sp: SharedPreferences): ProfileRepository = ProfileRepositoryImpl(sp)
 }

@@ -10,6 +10,8 @@ import com.example.scame.retroflowmvp.entry_point.login.di.LoginComponent
 import com.example.scame.retroflowmvp.entry_point.login.di.LoginModule
 import com.example.scame.retroflowmvp.entry_point.registration.di.RegistrationComponent
 import com.example.scame.retroflowmvp.entry_point.registration.di.RegistrationModule
+import com.example.scame.retroflowmvp.profile.di.ProfileComponent
+import com.example.scame.retroflowmvp.profile.di.ProfileModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -26,4 +28,6 @@ interface AppComponent {
     fun provideBoardsComponent(boardsModule: BoardsModule): BoardsComponent
 
     fun provideRetroSectionsComponents(sectionsModule: SectionsModule): SectionsComponent
+
+    fun provideProfileComponent(profileModule: ProfileModule): ProfileComponent
 }
