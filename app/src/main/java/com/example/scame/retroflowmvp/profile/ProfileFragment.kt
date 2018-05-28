@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
 import com.example.scame.retroflowmvp.BottomNavigationActivity
@@ -24,6 +25,7 @@ class ProfileFragment: Fragment(), ProfilePresenter.ProfileView {
     @Inject
     lateinit var profilePresenter: ProfilePresenter<ProfilePresenter.ProfileView>
 
+    @BindView(R.id.progress_bar)
     lateinit var progressBar: ProgressBar
 
     private val profileComponent by lazy {

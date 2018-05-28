@@ -11,6 +11,9 @@ import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.re
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.repository.ActionItemRepositoryImpl
 import com.example.scame.retroflowmvp.entry_point.EntryRepository
 import com.example.scame.retroflowmvp.entry_point.EntryRepositoryImpl
+import com.example.scame.retroflowmvp.injection.ObserveOn
+import com.example.scame.retroflowmvp.injection.SubscribeOn
+import com.example.scame.retroflowmvp.networking.ApiInterface
 import com.example.scame.retroflowmvp.profile.profile.ProfileRepository
 import com.example.scame.retroflowmvp.profile.profile.ProfileRepositoryImpl
 import dagger.Module
@@ -20,25 +23,39 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 
 @Module
 class DataModule {
 
+    companion object {
+        const val BASE_URL = "https://salty-tundra-44858.herokuapp.com/"
+    }
+
     @Provides
     @Singleton
     fun provideRetrofitClient(): Retrofit {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
+        val client = OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .connectTimeout(10, TimeUnit.SECONDS)
+                .build()
 
         return Retrofit.Builder()
-                .baseUrl("https://api.example.com")
+                .baseUrl(BASE_URL)
                 .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiInterface(retrofit: Retrofit): ApiInterface {
+        return retrofit.create(ApiInterface::class.java)
     }
 
     @Provides
@@ -59,7 +76,9 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideEntryRepository(sp: SharedPreferences): EntryRepository = EntryRepositoryImpl(sp)
+    fun provideEntryRepository(apiInterface: ApiInterface, sp: SharedPreferences,
+                               subscribeOn: SubscribeOn, observeOn: ObserveOn): EntryRepository =
+            EntryRepositoryImpl(apiInterface, sp, subscribeOn, observeOn)
 
     @Provides
     @Singleton

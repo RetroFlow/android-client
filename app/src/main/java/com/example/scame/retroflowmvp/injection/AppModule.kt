@@ -18,13 +18,13 @@ class AppModule(val context: Context) {
 
     @Provides
     @Singleton
-    fun provideSubscribeOn() = object : SubscribeOn {
+    fun provideSubscribeOn(): SubscribeOn = object : SubscribeOn {
         override fun subscribeOn() = Schedulers.io()
     }
 
     @Provides
     @Singleton
-    fun provideObserveOn() = object : ObserveOn {
+    fun provideObserveOn(): ObserveOn = object : ObserveOn {
         override fun observeOn() = AndroidSchedulers.mainThread()
     }
 }

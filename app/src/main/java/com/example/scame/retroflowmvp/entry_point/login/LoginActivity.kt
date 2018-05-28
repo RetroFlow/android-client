@@ -12,6 +12,7 @@ import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.R
 import android.app.ProgressDialog
 import android.content.Context
+import android.util.Log
 import butterknife.BindView
 import butterknife.OnClick
 import com.example.scame.retroflowmvp.BottomNavigationActivity
@@ -85,7 +86,7 @@ class LoginActivity : AppCompatActivity(), LoginPresenter.LoginView {
     }
 
     override fun onError(throwable: Throwable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.i("onxError", throwable.toString())
     }
 
     override fun onEmailValidationError(msg: String) {

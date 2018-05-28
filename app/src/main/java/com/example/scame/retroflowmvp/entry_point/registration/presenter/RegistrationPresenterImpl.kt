@@ -14,7 +14,7 @@ class RegistrationPresenterImpl<T: RegistrationPresenter.RegistrationView>(
     override fun register(password1: String, password2: String, email: String, name: String) {
         if (validate(password1, password1, email, name)) {
             composite.add(entryRepository
-                    .register()
+                    .register(email, password1, name)
                     .doOnSubscribe { view?.onProgressChange(true, "Creating Account...") }
                     .doFinally { view?.onProgressChange(false) }
                     .subscribe(
