@@ -37,7 +37,7 @@ class EntryRepositoryImpl(private val apiInterface: ApiInterface,
     }
 
     override fun logout(): Completable {
-        return apiInterface.logout(requireNotNull(sp.getToken()))
+        return apiInterface.logout("Bearer " + requireNotNull(sp.getToken()))
                 .subscribeOn(subscribeOn.subscribeOn())
                 .observeOn(observeOn.observeOn())
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -48,7 +49,7 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
     @BindView(R.id.action_item_description)
     lateinit var actionItemDescription: TextView
 
-    @BindView(R.id.action_item_assignee)
+    @BindView(R.id.assignee_tv)
     lateinit var actionItemAssignee: TextView
 
     @BindView(R.id.comments_rv)
@@ -137,6 +138,7 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
         val llm = LinearLayoutManager(this)
         llm.stackFromEnd = true
         commentsRv.layoutManager = llm
+        commentsRv.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
     }
 
     @OnClick(R.id.comment_send_btn)
