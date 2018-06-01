@@ -31,7 +31,7 @@ import javax.inject.Singleton
 class DataModule {
 
     companion object {
-        const val BASE_URL = "https://salty-tundra-44858.herokuapp.com/"
+        const val BASE_URL = "https://retroflow.herokuapp.com/"
     }
 
     @Provides

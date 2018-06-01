@@ -27,7 +27,10 @@ interface AppComponent {
 
     fun provideBoardsComponent(boardsModule: BoardsModule): BoardsComponent
 
+    // remove
     fun provideRetroSectionsComponents(sectionsModule: SectionsModule): SectionsComponent
 
     fun provideProfileComponent(profileModule: ProfileModule): ProfileComponent
+
+    // add SettingComponent
 }

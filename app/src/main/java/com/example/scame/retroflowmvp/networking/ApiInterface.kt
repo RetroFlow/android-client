@@ -18,6 +18,6 @@ interface ApiInterface {
     @POST("auth/users/")
     fun register(@Body registrationBody: RegistrationBody): Single<RegistrationResponse>
 
-    @POST("auth/users/logout/all")
+    @POST("auth/users/logout/all/")
     fun logout(@Header("Authorization") bearerToken: String): Completable
 }

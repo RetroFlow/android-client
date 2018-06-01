@@ -29,11 +29,11 @@ class EntryRepositoryImpl(private val apiInterface: ApiInterface,
     }
 
     override fun register(email: String, password: String, name: String): Completable {
-        return apiInterface.register(RegistrationBody(email, password, name))
+        return apiInterface
+                .register(RegistrationBody(email, password, name))
                 .subscribeOn(subscribeOn.subscribeOn())
                 .observeOn(observeOn.observeOn())
-                .doAfterSuccess { sp.setToken(it.token) }
-                .toCompletable()
+                .toCompletable().andThen(login(email, password))
     }
 
     override fun logout(): Completable {
