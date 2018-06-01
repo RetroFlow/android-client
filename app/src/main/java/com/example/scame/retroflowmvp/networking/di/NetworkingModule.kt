@@ -2,6 +2,8 @@ package com.example.scame.retroflowmvp.networking.di
 
 import com.example.scame.retroflowmvp.injection.data.DataModule
 import com.example.scame.retroflowmvp.networking.ApiInterface
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import dagger.Module
 import dagger.Provides
@@ -21,14 +23,18 @@ class NetworkingModule {
 
     @Provides
     @Singleton
-    fun provideRetrofitClient(client: OkHttpClient): Retrofit {
+    fun provideRetrofitClient(client: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideGson(): Gson = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").create()
 
     @Provides
     @Singleton

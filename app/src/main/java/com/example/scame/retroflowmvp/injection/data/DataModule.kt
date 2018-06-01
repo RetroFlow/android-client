@@ -36,7 +36,9 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideBoardsRepository(): BoardsRepository = BoardsRepositoryImpl()
+    fun provideBoardsRepository(sp: SharedPreferences, apiInterface: ApiInterface,
+                                subscribeOn: SubscribeOn, observeOn: ObserveOn): BoardsRepository =
+            BoardsRepositoryImpl(apiInterface, sp, subscribeOn, observeOn)
 
     @Provides
     @Singleton
