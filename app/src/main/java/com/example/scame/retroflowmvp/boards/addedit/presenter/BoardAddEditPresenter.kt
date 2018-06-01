@@ -3,6 +3,7 @@ package com.example.scame.retroflowmvp.boards.addedit.presenter
 import com.example.scame.retroflowmvp.BasePresenter
 import com.example.scame.retroflowmvp.boards.BoardApiModel
 import com.example.scame.retroflowmvp.boards.addedit.models.BoardDefaultSettings
+import java.util.*
 
 interface BoardAddEditPresenter<T>: BasePresenter<T> {
 
@@ -19,6 +20,6 @@ interface BoardAddEditPresenter<T>: BasePresenter<T> {
 
     fun requestDefaultBoardSettings()
 
-    fun createBoard(name: String, sprintStartDate: String, discussionPeriod: Int,
+    fun createBoard(name: String, sprintStartDate: Date, discussionPeriod: Int,
                     sprintDuration: Int, columnNames: List<String>)
 }

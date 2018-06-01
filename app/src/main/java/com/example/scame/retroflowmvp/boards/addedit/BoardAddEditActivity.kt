@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.View
 import android.widget.EditText
@@ -11,11 +12,13 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
+import butterknife.OnClick
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.RetroFlowApp
 import com.example.scame.retroflowmvp.boards.addedit.models.BoardDefaultSettings
 import com.example.scame.retroflowmvp.boards.addedit.presenter.BoardAddEditPresenter
 import com.example.scame.retroflowmvp.boards.di.BoardsModule
+import com.example.scame.retroflowmvp.utils.setToolbarBackButton
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -47,6 +50,11 @@ class BoardAddEditActivity: AppCompatActivity(), BoardAddEditPresenter.BoardAddE
     @BindView(R.id.progress_bar)
     lateinit var progressBar: ProgressBar
 
+    @BindView(R.id.toolbar)
+    lateinit var toolbar: Toolbar
+
+    private lateinit var sprintStartDate: Date
+
     private val boardsComponent by lazy {
         RetroFlowApp.appComponent.provideBoardsComponent(BoardsModule())
     }
@@ -60,6 +68,7 @@ class BoardAddEditActivity: AppCompatActivity(), BoardAddEditPresenter.BoardAddE
         ButterKnife.bind(this)
 
         setupInjection()
+        toolbar.setToolbarBackButton(this)
     }
 
     override fun onStart() {
@@ -83,10 +92,11 @@ class BoardAddEditActivity: AppCompatActivity(), BoardAddEditPresenter.BoardAddE
 
     override fun onDefaultBoardSettings(boardDefaultSettings: BoardDefaultSettings) {
         val sdf = SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.US)
+        sprintStartDate = boardDefaultSettings.sprintStartDate
         sprintStartDateTv.text = sdf.format(boardDefaultSettings.sprintStartDate)
         discussionPeriodEt.setText(boardDefaultSettings.discussionPeriod.toString())
         sprintDurationEt.setText(boardDefaultSettings.sprintDuration.toString())
-        columnsEt.setText(boardDefaultSettings.columnNames.map { it.name }.joinToString())
+        columnsEt.setText(boardDefaultSettings.columnNames.joinToString { it.name })
     }
 
     override fun onProgressChanged(show: Boolean) {
@@ -94,5 +104,15 @@ class BoardAddEditActivity: AppCompatActivity(), BoardAddEditPresenter.BoardAddE
     }
 
     override fun onError(throwable: Throwable) {
+    }
+
+    @OnClick(R.id.board_create_btn)
+    fun onBoardAddClick() {
+        boardAddEditPresenter.createBoard(
+                boardNameEt.text.toString(),
+                sprintStartDate,
+                discussionPeriodEt.text.toString().toInt(),
+                sprintDurationEt.text.toString().toInt(),
+                columnsEt.text.toString().split(", "))
     }
 }
