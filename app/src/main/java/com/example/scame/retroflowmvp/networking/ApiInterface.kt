@@ -1,5 +1,7 @@
 package com.example.scame.retroflowmvp.networking
 
+import com.example.scame.retroflowmvp.boards.BoardApiModel
+import com.example.scame.retroflowmvp.boards.addedit.models.BoardCreateBody
 import com.example.scame.retroflowmvp.boards.addedit.models.BoardDefaultSettings
 import com.example.scame.retroflowmvp.networking.body.LoginBody
 import com.example.scame.retroflowmvp.networking.body.RegistrationBody
@@ -25,4 +27,8 @@ interface ApiInterface {
 
     @GET("core/default_settings/")
     fun getBoardDefaultSettings(@Header("Authorization") bearerToken: String): Single<BoardDefaultSettings>
+
+    @POST("core/boards/")
+    fun createBoard(@Header("Authorization") bearerToken: String,
+                    @Body boardCreateBody: BoardCreateBody): Single<BoardApiModel>
 }

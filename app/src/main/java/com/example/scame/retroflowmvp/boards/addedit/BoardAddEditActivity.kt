@@ -49,6 +49,10 @@ class BoardAddEditActivity: AppCompatActivity(), BoardAddEditPresenter.BoardAddE
         boardsComponent.inject(this)
     }
 
+    override fun onBoardCreated() {
+        finish()
+    }
+
     override fun onDefaultBoardSettings(boardDefaultSettings: BoardDefaultSettings) {
     }
 

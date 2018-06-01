@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 interface BoardsRepository {
 
-    fun createBoard(board: BoardRawModel)
+    fun createBoard(name: String, settings: BoardDefaultSettings): Single<BoardApiModel>
 
     fun editBoard(board: BoardRawModel)
 

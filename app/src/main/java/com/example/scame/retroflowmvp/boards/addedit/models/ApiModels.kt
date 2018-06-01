@@ -16,3 +16,6 @@ data class BoardDefaultSettings(@Expose @SerializedName("sprint_start_date")
                                 val columnNames: List<ColumnName>)
 
 data class ColumnName(@Expose val name: String)
+
+data class BoardCreateBody(@Expose val name: String,
+                           @Expose val settings: BoardDefaultSettings)

@@ -3,6 +3,7 @@ package com.example.scame.retroflowmvp.boards
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.util.Log
+import com.example.scame.retroflowmvp.boards.addedit.models.BoardCreateBody
 import com.example.scame.retroflowmvp.boards.addedit.models.BoardDefaultSettings
 import com.example.scame.retroflowmvp.injection.ObserveOn
 import com.example.scame.retroflowmvp.injection.SubscribeOn
@@ -25,8 +26,10 @@ class BoardsRepositoryImpl(private val apiInterface: ApiInterface,
                 .observeOn(observeOn.observeOn())
     }
 
-    override fun createBoard(board: BoardRawModel) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun createBoard(name: String, settings: BoardDefaultSettings): Single<BoardApiModel> {
+        return apiInterface.createBoard("Bearer " + requireNotNull(sp.getToken()), BoardCreateBody(name, settings))
+                .subscribeOn(subscribeOn.subscribeOn())
+                .observeOn(observeOn.observeOn())
     }
 
     override fun editBoard(board: BoardRawModel) {
