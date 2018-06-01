@@ -19,5 +19,6 @@ interface BoardAddEditPresenter<T>: BasePresenter<T> {
 
     fun requestDefaultBoardSettings()
 
-    fun createBoard(boardApiModel: BoardApiModel)
+    fun createBoard(name: String, sprintStartDate: String, discussionPeriod: Int,
+                    sprintDuration: Int, columnNames: List<String>)
 }

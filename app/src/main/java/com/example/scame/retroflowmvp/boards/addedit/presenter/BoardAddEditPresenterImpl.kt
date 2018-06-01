@@ -1,5 +1,6 @@
 package com.example.scame.retroflowmvp.boards.addedit.presenter
 
+import com.example.scame.retroflowmvp.boards.BoardApiModel
 import com.example.scame.retroflowmvp.boards.BoardsRepository
 import io.reactivex.disposables.CompositeDisposable
 
@@ -22,6 +23,12 @@ class BoardAddEditPresenterImpl<T: BoardAddEditPresenter.BoardAddEditView>(
                 )
         )
     }
+
+    override fun createBoard(name: String, sprintStartDate: String, discussionPeriod: Int,
+                             sprintDuration: Int, columnNames: List<String>) {
+
+    }
+
 
     override fun subscribe(view: T) {
         this.view = view
