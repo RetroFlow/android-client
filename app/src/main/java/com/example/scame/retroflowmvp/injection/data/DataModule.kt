@@ -30,34 +30,6 @@ import javax.inject.Singleton
 @Module
 class DataModule {
 
-    companion object {
-        const val BASE_URL = "https://retroflow.herokuapp.com/"
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofitClient(): Retrofit {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .build()
-
-        return Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideApiInterface(retrofit: Retrofit): ApiInterface {
-        return retrofit.create(ApiInterface::class.java)
-    }
-
     @Provides
     @Singleton
     fun provideSharedPreferences(context: Context) = PreferenceManager.getDefaultSharedPreferences(context)

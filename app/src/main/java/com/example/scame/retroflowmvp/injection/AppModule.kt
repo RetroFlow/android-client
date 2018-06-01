@@ -2,14 +2,14 @@ package com.example.scame.retroflowmvp.injection
 
 import android.content.Context
 import com.example.scame.retroflowmvp.injection.data.DataModule
+import com.example.scame.retroflowmvp.networking.di.NetworkingModule
 import dagger.Module
 import dagger.Provides
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Singleton
 
-@Module(includes = [(DataModule::class)])
+@Module(includes = [DataModule::class, NetworkingModule::class])
 class AppModule(val context: Context) {
 
     @Provides
