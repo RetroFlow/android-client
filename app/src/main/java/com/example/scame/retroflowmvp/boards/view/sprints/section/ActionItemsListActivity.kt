@@ -12,6 +12,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.ActionItemClickEvent
 import com.example.scame.retroflowmvp.R
+import com.example.scame.retroflowmvp.boards.addedit.models.ColumnEntity
 import com.example.scame.retroflowmvp.boards.view.sprints.RetroSection
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.ActionItemActivity
 import com.example.scame.retroflowmvp.utils.setToolbarBackButton
@@ -21,9 +22,9 @@ class ActionItemsListActivity: AppCompatActivity() {
     companion object {
         private const val RETRO_SECTION_KEY = "retro_section_key"
 
-        fun getIntent(context: Context, retroSection: RetroSection): Intent {
+        fun getIntent(context: Context, columnEntity: ColumnEntity): Intent {
             val intent = Intent(context, ActionItemsListActivity::class.java)
-            intent.putExtra(RETRO_SECTION_KEY, retroSection)
+            intent.putExtra(RETRO_SECTION_KEY, columnEntity)
             return intent
         }
     }
@@ -34,8 +35,8 @@ class ActionItemsListActivity: AppCompatActivity() {
     @BindView(R.id.toolbar)
     lateinit var toolbar: Toolbar
 
-    private val retroSection by lazy {
-        intent.getParcelableExtra<RetroSection>(RETRO_SECTION_KEY)
+    private val columnEntity by lazy {
+        intent.getParcelableExtra<ColumnEntity>(RETRO_SECTION_KEY)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +49,7 @@ class ActionItemsListActivity: AppCompatActivity() {
     }
 
     private fun setupActionItemsList() {
-        actionsItemsRv.adapter = ActionItemsAdapter(retroSection.actionItems.toMutableList(), this) {
+        actionsItemsRv.adapter = ActionItemsAdapter(columnEntity.items.toMutableList(), this) {
             startActivity(ActionItemActivity.getIntent(this, it))
         }
         actionsItemsRv.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))

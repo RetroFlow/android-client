@@ -1,6 +1,9 @@
 package com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.presenter
 
 import android.util.Log
+import com.example.scame.retroflowmvp.boards.addedit.models.CommentBody
+import com.example.scame.retroflowmvp.boards.addedit.models.CommentEntity
+import com.example.scame.retroflowmvp.boards.addedit.models.ItemEntity
 import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
 import com.example.scame.retroflowmvp.boards.view.sprints.Comment
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.repository.ActionItemRepository
@@ -14,7 +17,7 @@ class ActionItemPresenterImpl<T : ActionItemPresenter.ActionItemView>(
 
     private val composite = CompositeDisposable()
 
-    override fun requestComments(actionItemId: String) {
+    override fun requestComments(actionItemId: Int) {
         composite.add(actionItemRepository
                 .getComments(actionItemId)
                 .doOnSubscribe { view?.onCommentsProgressChanged(true) }
@@ -26,20 +29,19 @@ class ActionItemPresenterImpl<T : ActionItemPresenter.ActionItemView>(
         )
     }
 
-    override fun setModel(actionItem: ActionItem) {
+    override fun setModel(actionItem: ItemEntity) {
         view?.onRenderActionItem(actionItem)
     }
 
-    override fun addComment(actionItem: ActionItem, commentText: String) {
+    override fun addComment(item: ItemEntity, commentText: String) {
         if (!isCommentValid(commentText)) {
             view?.onCommentValidationFailed()
             return
         }
 
         composite.add(actionItemRepository
-                .addComment(actionItem.id, Comment("1", "Random", commentText))
-                .andThen(actionItemRepository.getComments(actionItem.id))
-                .map { val newList = it.toMutableList(); newList.add(Comment("1", "Random", commentText)); newList }
+                .addComment(item.id, CommentBody(commentText))
+                .andThen(actionItemRepository.getComments(item.id))
                 .doOnSubscribe { view?.onCommentsProgressChanged(true) }
                 .doFinally { view?.onCommentsProgressChanged(false) }
                 .doOnSuccess { view?.clearCommentInput() }
@@ -53,7 +55,7 @@ class ActionItemPresenterImpl<T : ActionItemPresenter.ActionItemView>(
     private fun isCommentValid(commentText: String) = commentText.isNotBlank()
 
     override fun editActionItem(actionItem: ActionItem) {
-        composite.add(actionItemRepository
+        /*composite.add(actionItemRepository
                 .editActionItem(actionItem)
                 .doOnSubscribe { view?.onActionItemProgressChanged(true) }
                 .doFinally { view?.onActionItemProgressChanged(false) }
@@ -61,7 +63,7 @@ class ActionItemPresenterImpl<T : ActionItemPresenter.ActionItemView>(
                         { view?.onActionItemEdit(it) },
                         { view?.onError(it) }
                 )
-        )
+        )*/
     }
 
     override fun subscribe(view: T) {

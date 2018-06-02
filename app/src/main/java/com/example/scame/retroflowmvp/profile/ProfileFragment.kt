@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
+import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import butterknife.OnClick
@@ -28,6 +29,15 @@ class ProfileFragment: Fragment(), ProfilePresenter.ProfileView {
     @BindView(R.id.progress_bar)
     lateinit var progressBar: ProgressBar
 
+    @BindView(R.id.email_tv)
+    lateinit var emailTv: TextView
+
+    @BindView(R.id.name_tv)
+    lateinit var nameTv: TextView
+
+    @BindView(R.id.id_tv)
+    lateinit var idTv: TextView
+
     private val profileComponent by lazy {
         (activity as BottomNavigationActivity).profileComponent
     }
@@ -45,8 +55,10 @@ class ProfileFragment: Fragment(), ProfilePresenter.ProfileView {
         profileComponent.inject(this)
     }
 
-    override fun onProfile(profile: ProfileModel) {
-
+    override fun onProfile(profile: ProfileEntity) {
+        emailTv.text = "Email: " + profile.publicInfo.email
+        nameTv.text = "Name: " + profile.username
+        idTv.text = "Id: " + profile.id
     }
 
     override fun onLogout() {
@@ -64,7 +76,7 @@ class ProfileFragment: Fragment(), ProfilePresenter.ProfileView {
     override fun onStart() {
         super.onStart()
         profilePresenter.subscribe(this)
-        profilePresenter
+        profilePresenter.requestProfileInfo()
     }
 
     override fun onStop() {

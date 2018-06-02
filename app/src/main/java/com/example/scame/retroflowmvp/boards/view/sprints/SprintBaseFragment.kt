@@ -13,7 +13,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.RetroFlowApp
-import com.example.scame.retroflowmvp.SectionClickEvent
+import com.example.scame.retroflowmvp.boards.addedit.models.SprintEntity
 import com.example.scame.retroflowmvp.boards.view.sprints.adapter.RetroSectionsAdapter
 import com.example.scame.retroflowmvp.boards.view.sprints.di.SectionsModule
 import com.example.scame.retroflowmvp.boards.view.sprints.presenter.RetroSectionsPresenter
@@ -23,7 +23,7 @@ import javax.inject.Inject
 abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSectionsView {
 
     companion object {
-        val BOARD_ID_KEY = "board_id_key"
+        val SPRINT_KEY = "sprint_key"
     }
 
     @BindView(R.id.retro_sections_rv)
@@ -41,8 +41,8 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
         RetroFlowApp.appComponent.provideRetroSectionsComponents(SectionsModule())
     }
 
-    private val boardId by lazy {
-        arguments?.getString(BOARD_ID_KEY) ?: "0"
+    private val sprintModel by lazy {
+        arguments!!.getParcelable<SprintEntity>(SPRINT_KEY)
     }
 
     abstract val isCurrentSprint: Boolean
@@ -54,6 +54,8 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
         setupInjection()
         setupSectionsAdapter()
 
+        sectionsAdapter.rebind(sprintModel.columns)
+
         return view
     }
 
@@ -64,7 +66,7 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
     override fun onStart() {
         super.onStart()
         presenter.subscribe(this)
-        presenter.requestRetroSections(boardId)
+        //presenter.requestRetroSections(boardId)
     }
 
     override fun onStop() {
@@ -81,7 +83,7 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
     }
 
     override fun onRetroSections(retroSections: List<RetroSection>) {
-        sectionsAdapter.rebind(retroSections)
+        //sectionsAdapter.rebind(retroSections)
     }
 
     override fun onProgressChanged(show: Boolean) {
@@ -89,6 +91,6 @@ abstract class SprintBaseFragment: Fragment(), RetroSectionsPresenter.RetroSecti
     }
 
     override fun onError(throwable: Throwable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.i("onxError", throwable.toString())
     }
 }

@@ -1,32 +1,38 @@
 package com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.repository
 
+import android.content.SharedPreferences
+import com.example.scame.retroflowmvp.boards.addedit.models.CommentBody
+import com.example.scame.retroflowmvp.boards.addedit.models.CommentEntity
 import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
 import com.example.scame.retroflowmvp.boards.view.sprints.Comment
+import com.example.scame.retroflowmvp.injection.ObserveOn
+import com.example.scame.retroflowmvp.injection.SubscribeOn
+import com.example.scame.retroflowmvp.networking.ApiInterface
+import com.example.scame.retroflowmvp.utils.getToken
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
-class ActionItemRepositoryImpl: ActionItemRepository {
+class ActionItemRepositoryImpl(private val apiInterface: ApiInterface,
+                               private val sp: SharedPreferences,
+                               private val subscribeOn: SubscribeOn,
+                               private val observeOn: ObserveOn): ActionItemRepository {
 
-    override fun addComment(actionItemId: String, comment: Comment): Completable {
-        return Completable.complete()
+    override fun addComment(actionItemId: Int, comment: CommentBody): Completable {
+        return apiInterface
+                .postComment("Bearer " + requireNotNull(sp.getToken()), actionItemId, comment)
+                .subscribeOn(subscribeOn.subscribeOn())
+                .observeOn(observeOn.observeOn())
+                .toCompletable()
     }
 
-    override fun getComments(actionItemId: String): Single<List<Comment>> {
-        return getCommentsSingleList()
+    override fun getComments(actionItemId: Int): Single<List<CommentEntity>> {
+        return apiInterface
+                .getCommnets("Bearer " + requireNotNull(sp.getToken()), actionItemId)
+                .subscribeOn(subscribeOn.subscribeOn())
+                .observeOn(observeOn.observeOn())
     }
-
-    private fun getCommentsSingleList() = Single
-            .timer(2, TimeUnit.SECONDS, AndroidSchedulers.mainThread())
-            .map { listOf(
-                    Comment("1", "Slava", "Comment 1, from Slava"),
-                    Comment("2", "Masha", "Comment 2, from Masha"),
-                    Comment("3", "Nastya", "Comment 3, from Nastya"),
-                    Comment("4", "Anonym", "Comment 4, from Anonym"),
-                    Comment("5", "SF", "Comment 5, from SF"),
-                    Comment("6", "JS", "Comment 6, from JS")
-            )}
 
     override fun editActionItem(actionItem: ActionItem): Single<ActionItem> {
         return Single

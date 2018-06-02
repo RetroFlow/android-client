@@ -18,6 +18,8 @@ import butterknife.ButterKnife
 import butterknife.OnClick
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.RetroFlowApp
+import com.example.scame.retroflowmvp.boards.addedit.models.CommentEntity
+import com.example.scame.retroflowmvp.boards.addedit.models.ItemEntity
 import com.example.scame.retroflowmvp.boards.view.sprints.ActionItem
 import com.example.scame.retroflowmvp.boards.view.sprints.Comment
 import com.example.scame.retroflowmvp.boards.view.sprints.section.action_item.di.ActionItemModule
@@ -33,9 +35,9 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
         private const val ACTION_ITEM_KEY = "action_item_key"
         private const val MODEL_KEY = "model_key"
 
-        fun getIntent(context: Context, actionItem: ActionItem): Intent {
+        fun getIntent(context: Context, itemEntity: ItemEntity): Intent {
             val intent = Intent(context, ActionItemActivity::class.java)
-            intent.putExtra(ACTION_ITEM_KEY, actionItem)
+            intent.putExtra(ACTION_ITEM_KEY, itemEntity)
             return intent
         }
     }
@@ -61,6 +63,9 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
     @BindView(R.id.action_item_progress_bar)
     lateinit var actionItemProgressBar: ProgressBar
 
+    @BindView(R.id.status_tv)
+    lateinit var statusTv: TextView
+
     @BindView(R.id.comments_progress_bar)
     lateinit var commentsProgressBar: ProgressBar
 
@@ -73,7 +78,7 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
         RetroFlowApp.appComponent.provideActionItemComponent(ActionItemModule())
     }
 
-    private lateinit var screenModel: ActionItem
+    private lateinit var screenModel: ItemEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -126,14 +131,15 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
         commentInput.text.clear()
     }
 
-    override fun onRenderActionItem(actionItem: ActionItem) {
-        actionItemTitle.text = actionItem.title
+    override fun onRenderActionItem(actionItem: ItemEntity) {
+        actionItemTitle.text = actionItem.heading
         actionItemDescription.text = actionItem.description
-        actionItemAssignee.text = actionItem.assignee
+        actionItemAssignee.text = actionItem.authorId
+        statusTv.text = "Status " + actionItem.status
     }
 
     private fun setupCommentsAdapter() {
-        this.commentsAdapter = ActionItemCommentsAdapter(screenModel.comments.toMutableList(), this)
+        this.commentsAdapter = ActionItemCommentsAdapter(mutableListOf(), this)
         commentsRv.adapter = commentsAdapter
         val llm = LinearLayoutManager(this)
         llm.stackFromEnd = true
@@ -151,14 +157,16 @@ class ActionItemActivity: AppCompatActivity(), ActionItemPresenter.ActionItemVie
         Toast.makeText(this, "Cannot send an empty message", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onActionItemEdit(edited: ActionItem) {
+    override fun onActionItemEdit(edited: ItemEntity) {
         screenModel = edited
     }
 
-    override fun onActionItemComments(comments: List<Comment>) {
+    override fun onActionItemComments(comments: List<CommentEntity>) {
         hideKeyboard()
         commentsAdapter.rebind(comments)
-        commentsRv.smoothScrollToPosition(commentsAdapter.itemCount - 1)
+        if (commentsAdapter.itemCount != 0) {
+            commentsRv.smoothScrollToPosition(commentsAdapter.itemCount - 1)
+        }
     }
 
     override fun onError(throwable: Throwable) {

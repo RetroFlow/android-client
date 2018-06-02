@@ -6,6 +6,7 @@ import android.widget.TextView
 import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.R
+import com.example.scame.retroflowmvp.boards.addedit.models.CommentEntity
 import com.example.scame.retroflowmvp.boards.view.sprints.Comment
 
 class ActionItemCommentViewHolder(view: View): RecyclerView.ViewHolder(view) {
@@ -19,8 +20,8 @@ class ActionItemCommentViewHolder(view: View): RecyclerView.ViewHolder(view) {
     @BindView(R.id.comment_text)
     lateinit var commentTV: TextView
 
-    fun bind(comment: Comment) {
-        authorTv.text = comment.author
+    fun bind(comment: CommentEntity) {
+        authorTv.text = comment.authorInfo.fullName
         commentTV.text = comment.text
     }
 }

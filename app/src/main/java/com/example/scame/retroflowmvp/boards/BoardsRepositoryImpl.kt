@@ -3,8 +3,10 @@ package com.example.scame.retroflowmvp.boards
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import android.util.Log
+import com.example.scame.retroflowmvp.R.string.settings
 import com.example.scame.retroflowmvp.boards.addedit.models.BoardCreateBody
 import com.example.scame.retroflowmvp.boards.addedit.models.BoardDefaultSettings
+import com.example.scame.retroflowmvp.boards.addedit.models.DeepBoard
 import com.example.scame.retroflowmvp.injection.ObserveOn
 import com.example.scame.retroflowmvp.injection.SubscribeOn
 import com.example.scame.retroflowmvp.networking.ApiInterface
@@ -19,6 +21,14 @@ class BoardsRepositoryImpl(private val apiInterface: ApiInterface,
                            private val subscribeOn: SubscribeOn,
                            private val observeOn: ObserveOn): BoardsRepository {
 
+    override fun startNewSprints(id: Int): Completable {
+        return apiInterface
+                .startNewSprints("Bearer " + requireNotNull(sp.getToken()), id)
+                .andThen(apiInterface.startNewSprints("Bearer " + requireNotNull(sp.getToken()), id))
+                .subscribeOn(subscribeOn.subscribeOn())
+                .observeOn(observeOn.observeOn())
+    }
+
     override fun getDefaultBoardSettings(): Single<BoardDefaultSettings> {
         return apiInterface
                 .getBoardDefaultSettings("Bearer " + requireNotNull(sp.getToken()))
@@ -28,6 +38,12 @@ class BoardsRepositoryImpl(private val apiInterface: ApiInterface,
 
     override fun createBoard(name: String, settings: BoardDefaultSettings): Single<BoardApiModel> {
         return apiInterface.createBoard("Bearer " + requireNotNull(sp.getToken()), BoardCreateBody(name, settings))
+                .subscribeOn(subscribeOn.subscribeOn())
+                .observeOn(observeOn.observeOn())
+    }
+
+    override fun getDeepBoard(id: Int): Single<DeepBoard> {
+        return apiInterface.getDeepBoard("Bearer " + requireNotNull(sp.getToken()), id)
                 .subscribeOn(subscribeOn.subscribeOn())
                 .observeOn(observeOn.observeOn())
     }

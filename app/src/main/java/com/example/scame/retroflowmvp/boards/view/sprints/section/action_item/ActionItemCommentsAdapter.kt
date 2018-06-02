@@ -5,9 +5,10 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.scame.retroflowmvp.R
+import com.example.scame.retroflowmvp.boards.addedit.models.CommentEntity
 import com.example.scame.retroflowmvp.boards.view.sprints.Comment
 
-class ActionItemCommentsAdapter(private val comments: MutableList<Comment>,
+class ActionItemCommentsAdapter(private val comments: MutableList<CommentEntity>,
                                 private val context: Context): RecyclerView.Adapter<ActionItemCommentViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionItemCommentViewHolder {
@@ -21,7 +22,7 @@ class ActionItemCommentsAdapter(private val comments: MutableList<Comment>,
         holder.bind(comments[position])
     }
 
-    fun rebind(comments: List<Comment>) {
+    fun rebind(comments: List<CommentEntity>) {
         this.comments.clear()
         this.comments.addAll(comments)
         notifyDataSetChanged()

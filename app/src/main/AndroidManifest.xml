@@ -21,7 +21,9 @@
 
         <activity android:name=".boards.view.sprints.section.ActionItemsListActivity" />
 
-        <activity android:name=".boards.view.sprints.section.action_item.ActionItemActivity" />
+        <activity
+            android:name=".boards.view.sprints.section.action_item.ActionItemActivity"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name=".entry_point.SplashActivity"

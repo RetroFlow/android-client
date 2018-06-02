@@ -8,11 +8,13 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.R
 import com.example.scame.retroflowmvp.SectionClickEvent
+import com.example.scame.retroflowmvp.boards.addedit.models.ColumnEntity
 import com.example.scame.retroflowmvp.boards.view.sprints.RetroSection
+import java.util.*
 
 class RetroSectionsViewHolder(view: View,
                               private val context: Context,
-                              private val onClick: (RetroSection) -> Unit): RecyclerView.ViewHolder(view) {
+                              private val onClick: (ColumnEntity) -> Unit): RecyclerView.ViewHolder(view) {
 
     @BindView(R.id.section_id_tv)
     lateinit var sectionId: TextView
@@ -25,10 +27,10 @@ class RetroSectionsViewHolder(view: View,
         ButterKnife.bind(this, view)
     }
 
-    fun bind(retroSection: RetroSection) {
-        sectionId.text = retroSection.sectionId
+    fun bind(retroSection: ColumnEntity) {
+        sectionId.text = retroSection.id.toString()
         sectionName.text = retroSection.name
-        sectionRoot.setBackgroundColor(if (retroSection.open) {
+        sectionRoot.setBackgroundColor(if (Random().nextBoolean()) {
             context.resources.getColor(R.color.light_blue)
         } else {
             context.resources.getColor(R.color.dark_blue)

@@ -46,7 +46,9 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideActionItemRepository(): ActionItemRepository = ActionItemRepositoryImpl()
+    fun provideActionItemRepository(sp: SharedPreferences, apiInterface: ApiInterface,
+                                    subscribeOn: SubscribeOn, observeOn: ObserveOn): ActionItemRepository =
+            ActionItemRepositoryImpl(apiInterface, sp, subscribeOn, observeOn)
 
     @Provides
     @Singleton
@@ -56,5 +58,7 @@ class DataModule {
 
     @Provides
     @Singleton
-    fun provideProfileRepository(sp: SharedPreferences): ProfileRepository = ProfileRepositoryImpl(sp)
+    fun provideProfileRepository(sp: SharedPreferences, apiInterface: ApiInterface,
+                                 subscribeOn: SubscribeOn, observeOn: ObserveOn):
+            ProfileRepository = ProfileRepositoryImpl(sp, apiInterface, subscribeOn, observeOn)
 }
