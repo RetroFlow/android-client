@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.scame.retroflowmvp.R
 
-class BoardsRvAdapter(private val boards: MutableList<BoardRawModel>,
+class BoardsRvAdapter(private val boards: MutableList<BoardApiModel>,
                       private val context: Context,
-                      private val onClick: (BoardRawModel) -> Unit) : RecyclerView.Adapter<BoardViewHolder>() {
+                      private val onClick: (BoardApiModel) -> Unit) : RecyclerView.Adapter<BoardViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BoardViewHolder =
             BoardViewHolder(
@@ -22,7 +22,7 @@ class BoardsRvAdapter(private val boards: MutableList<BoardRawModel>,
         holder.bind(boards[position])
     }
 
-    fun rebind(boards: List<BoardRawModel>) {
+    fun rebind(boards: List<BoardApiModel>) {
         this.boards.clear()
         this.boards.addAll(boards)
         notifyDataSetChanged()

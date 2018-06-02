@@ -19,7 +19,7 @@ class BoardViewActivity: AppCompatActivity() {
 
         private const val BOARD_ID_KEY = "board_kd_key"
 
-        fun getIntent(boardId: String, context: Context): Intent {
+        fun getIntent(boardId: Int, context: Context): Intent {
             val intent = Intent(context, BoardViewActivity::class.java)
             intent.putExtra(BOARD_ID_KEY, boardId)
 

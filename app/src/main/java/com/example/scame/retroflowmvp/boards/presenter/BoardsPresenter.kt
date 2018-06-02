@@ -1,6 +1,7 @@
 package com.example.scame.retroflowmvp.boards.presenter
 
 import com.example.scame.retroflowmvp.BasePresenter
+import com.example.scame.retroflowmvp.boards.BoardApiModel
 import com.example.scame.retroflowmvp.boards.BoardRawModel
 
 interface BoardsPresenter<T>: BasePresenter<T> {
@@ -9,9 +10,9 @@ interface BoardsPresenter<T>: BasePresenter<T> {
 
         fun onProgressChange(show: Boolean)
 
-        fun onBoards(boards: List<BoardRawModel>)
+        fun onBoards(boards: List<BoardApiModel>)
 
-        fun onOpenBoard(board: BoardRawModel)
+        fun onOpenBoard(board: BoardApiModel)
 
         fun onAddBoard()
 
@@ -22,5 +23,5 @@ interface BoardsPresenter<T>: BasePresenter<T> {
 
     fun addBoardClick()
 
-    fun openBoard(board: BoardRawModel)
+    fun openBoard(board: BoardApiModel)
 }

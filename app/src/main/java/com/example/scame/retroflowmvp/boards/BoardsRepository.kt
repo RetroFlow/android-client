@@ -10,7 +10,7 @@ interface BoardsRepository {
 
     fun editBoard(board: BoardRawModel)
 
-    fun getBoards(): Single<List<BoardRawModel>>
+    fun getBoards(): Single<List<BoardApiModel>>
 
     fun removeBoard(id: String): Completable
 

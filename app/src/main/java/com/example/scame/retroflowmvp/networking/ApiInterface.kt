@@ -31,4 +31,7 @@ interface ApiInterface {
     @POST("core/boards/")
     fun createBoard(@Header("Authorization") bearerToken: String,
                     @Body boardCreateBody: BoardCreateBody): Single<BoardApiModel>
+
+    @GET("core/boards/")
+    fun getBoards(@Header("Authorization") bearerToken: String): Single<List<BoardApiModel>>
 }

@@ -98,15 +98,15 @@ class BoardsFragment: Fragment(), BoardsPresenter.BoardsView {
         progressBar.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    override fun onBoards(boards: List<BoardRawModel>) {
+    override fun onBoards(boards: List<BoardApiModel>) {
         boardsAdapter.rebind(boards)
     }
 
     override fun onError(throwable: Throwable) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.i("onxErr", throwable.toString())
     }
 
-    override fun onOpenBoard(board: BoardRawModel) {
+    override fun onOpenBoard(board: BoardApiModel) {
         startActivity(BoardViewActivity.getIntent(board.id, context!!))
     }
 }

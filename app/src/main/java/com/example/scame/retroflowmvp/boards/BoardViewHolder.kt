@@ -9,7 +9,7 @@ import butterknife.BindView
 import butterknife.ButterKnife
 import com.example.scame.retroflowmvp.R
 
-class BoardViewHolder(view: View, private val onClick: (BoardRawModel) -> Unit): RecyclerView.ViewHolder(view) {
+class BoardViewHolder(view: View, private val onClick: (BoardApiModel) -> Unit): RecyclerView.ViewHolder(view) {
 
     @BindView(R.id.board_card)
     lateinit var boardCard: CardView
@@ -24,11 +24,9 @@ class BoardViewHolder(view: View, private val onClick: (BoardRawModel) -> Unit):
         ButterKnife.bind(this, view)
     }
 
-    fun bind(board: BoardRawModel) {
+    fun bind(board: BoardApiModel) {
         boardName.text = board.name
-        boardStage.text = board.stage
+        boardStage.text = board.status
         boardCard.setOnClickListener { onClick(board) }
-
-        adminLogo.visibility = if (board.canEdit) View.VISIBLE else View.GONE
     }
 }
